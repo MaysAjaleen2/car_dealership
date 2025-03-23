@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Cars</title>
+    <style>
+        /* General Styles */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f8f8;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Top Bar Styling */
+        .top-bar {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 10px 20px;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            color: #f8f8f8;
+            font-size: 0.9rem;
+            z-index: 10;
+            backdrop-filter: blur(10px);
+        }
+
+        .top-bar a {
+            text-decoration: none;
+            color: #f8f8f8;
+            margin: 0 10px;
+            padding: 5px 10px;
+            transition: all 0.3s ease;
+        }
+
+        .top-bar a:hover, .top-bar a:focus {
+            color: #53739E;
+        }
+
+        .top-bar a.button {
+            border: 1px solid #f8f8f8;
+            border-radius: 5px;
+            font-weight: bold;
+            padding: 7px 15px;
+            transition: all 0.3s ease;
+        }
+
+        .top-bar a.button:hover, .top-bar a.button:focus {
+            background-color: #53739E;
+            color: #000;
+        }
+
+        main {
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            color: #1F3857;
+            margin-top: 70px;
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            text-align: center;
+            color: #1F3857;
+            margin-bottom: 20px;
+        }
+
+        /* Filter Table and Add Car Form */
+        .filter-table, .add-car-form {
+            display: none;
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .filter-table form, .add-car-form form {
+            display: grid;
+            gap: 10px;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        input, select, button {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button {
+            background-color: #1F3857;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #446397;
+        }
+
+        /* Car List */
+        .car-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .car-card {
+            background-color: rgba(255, 255, 255, 0.9);
+            width: 300px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .car-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        .car-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .car-card h3 {
+            color: #1F3857;
+            margin: 10px 0;
+        }
+
+        .car-card p {
+            margin: 5px 0;
+            color: #555;
+        }
+
+        .action-buttons {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .action-buttons button {
+            margin: 0 10px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Top Bar -->
+    <div class="top-bar">
+        <a href="{{ url_for('home') }}">Home</a>
+        <a href="{{ url_for('view_sales') }}">Purchase</a>
+        <a href="{{ url_for('contact') }}">Contact</a>
+    </div>
+    <main>
+        <h1>Available Cars</h1>
+        <!-- Action Buttons -->
+        <div class="action-buttons">
+            <button onclick="toggleForm('filter-table');">Filter Cars</button>
+            <button onclick="toggleForm('add-car-form');">Add a New Car</button>
+        </div>
+
+        <!-- Filter Form -->
+        <div class="filter-table" id="filter-table">
+            <h2>Filter Cars</h2>
+            <form method="GET" action="{{ url_for('our_cars') }}">
+                <label for="filter-year">Year:</label>
+                <input type="number" id="filter-year" name="year" placeholder="e.g., 2022">
+                <label for="filter-make">Make:</label>
+                <input type="text" id="filter-make" name="make" placeholder="e.g., BMW">
+                <label for="filter-price">Price (Max):</label>
+                <input type="number" id="filter-price" name="price" placeholder="e.g., 50000">
+                <button type="submit">Filter</button>
+                <button type="reset">Clear</button>
+            </form>
+        </div>
+
+        <!-- Add Car Form -->
+        <div class="add-car-form" id="add-car-form">
+            <h2>Add a New Car</h2>
+            <form method="POST" action="{{ url_for('add_car') }}" enctype="multipart/form-data">
+                <label for="add-model">Model:</label>
+                <input type="text" id="add-model" name="model" placeholder="e.g., BMW" required>
+                <label for="add-make">Make:</label>
+                <input type="text" id="add-make" name="make" placeholder="e.g., BMW" required>
+                <label for="add-year">Year:</label>
+                <input type="number" id="add-year" name="year" placeholder="e.g., 2022" required>
+                <label for="add-price">Price:</label>
+                <input type="number" id="add-price" name="price" step="0.01" placeholder="e.g., 50000" required>
+                <label for="add-color">Color:</label>
+                <input type="text" id="add-color" name="color" placeholder="e.g., Red" required>
+                <label for="add-status">Status:</label>
+                <select id="add-status" name="status" required>
+                    <option value="Available">Available</option>
+                    <option value="Sold">Sold</option>
+                </select>
+                <label for="add-image">Image:</label>
+                <input type="file" id="add-image" name="image" accept="image/*">
+                <button type="submit">Add Car</button>
+            </form>
+        </div>
+
+        <!-- Car List -->
+        <div class="car-list">
+            {% if cars %}
+                {% for car in cars %}
+                    <div class="car-card">
+                        <img src="{{ url_for('static', filename='images/' + car['Image']) if car['Image'] else url_for('static', filename='images/default.png') }}"
+                             alt="{{ car['Model'] }}">
+                        <h3>{{ car['Model'] }} ({{ car['Make'] }})</h3>
+                        <p><strong>Year:</strong> {{ car['Year'] }}</p>
+                        <p><strong>Price:</strong> ₪{{ car['Price'] }}</p>
+                        <p><strong>Color:</strong> {{ car['Color'] }}</p>
+                        <p><strong>Status:</strong> {{ car['Status'] }}</p>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p>No cars available.</p>
+            {% endif %}
+        </div>
+    </main>
+
+    <script>
+        function toggleForm(formId) {
+            const form = document.getElementById(formId);
+            if (form) {
+                form.style.display = (form.style.display === 'none' || form.style.display === '') ? 'block' : 'none';
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add New Service</title>
+    <style>
+        /* General Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Add New Service Page Styles */
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(to bottom, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)),
+                url('{{ url_for("static", filename="images/background.jpg") }}') no-repeat center center fixed;
+            background-size: cover;
+            color: white;
+            position: relative;
+        }
+
+        .container {
+            background-color: rgba(255, 255, 255, 0.9);
+            width: 400px;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+            text-align: center;
+        }
+
+        .container h1 {
+            font-size: 2rem;
+            color: #1F3857;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        label {
+            font-weight: bold;
+            text-align: left;
+            color: #333;
+        }
+
+        input[type="text"], input[type="date"], input[type="number"] {
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 16px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        input[type="text"]:focus, input[type="date"]:focus, input[type="number"]:focus {
+            outline: none;
+            border: 2px solid #1F3857;
+            box-shadow: 0 4px 8px rgba(31, 56, 87, 0.2);
+        }
+
+        button {
+            background: linear-gradient(to right, #1F3857, #53739E);
+            color: white;
+            padding: 12px;
+            font-size: 1rem;
+            font-weight: bold;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.3s ease;
+        }
+
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(31, 56, 87, 0.4);
+        }
+
+        .back-link {
+            margin-top: 15px;
+            display: inline-block;
+            color: #1F3857;
+            font-weight: bold;
+            text-decoration: none;
+            transition: color 0.3s ease, text-shadow 0.3s ease;
+        }
+
+        .back-link:hover {
+            color: #53739E;
+            text-shadow: 0px 0px 5px rgba(83, 115, 158, 0.8);
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Add New Service</h1>
+        <form action="/add-service" method="POST">
+            <label for="type">Service Type:</label>
+            <input type="text" id="type" name="type_ser" placeholder="e.g., Oil Change" required>
+
+            <label for="date">Date:</label>
+            <input type="date" id="date" name="date" required>
+
+            <label for="price">Price:</label>
+            <input type="number" id="price" name="price" placeholder="e.g., 100.00" step="0.01" required>
+
+            <label for="employee_id">Responsible Employee:</label>
+                <select id="employee_id" name="employee_id" required>
+                  {% for employee in employees %}
+                  <option value="{{ employee['Emp_ID'] }}">{{ employee['Emp_ID'] }} - {{ employee['Emrole'] }}</option>
+                  {% endfor %}
+                </select>
+
+            <button type="submit">Add Service</button>
+        </form>
+        <a href="/services" class="back-link">Back to Services</a>
+    </div>
+</body>
+</html>

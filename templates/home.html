@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Car Showroom</title>
+  <style>
+ /* General Reset */
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: Arial, sans-serif;
+    overflow-x: hidden;
+    background-color: #f8f8f8;
+  }
+
+  /* Top Bar Styling */
+  .top-bar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 20px;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Transparent background */
+    color: #f8f8f8;
+    font-size: 0.9rem;
+    z-index: 10;
+    backdrop-filter: blur(10px); /* Optional blur for sleek effect */
+  }
+
+  .top-bar a {
+    text-decoration: none;
+    color: #f8f8f8;
+    margin: 0 10px;
+    padding: 5px 10px;
+    transition: all 0.3s ease;
+  }
+
+  .top-bar a:hover, .top-bar a:focus {
+    color: #53739E; /* Gray color on hover or focus */
+  }
+
+  .top-bar a.button {
+    border: 1px solid #f8f8f8;
+    border-radius: 5px;
+    font-weight: bold;
+    padding: 7px 15px;
+    transition: all 0.3s ease;
+  }
+
+  .top-bar a.button:hover, .top-bar a.button:focus {
+    background-color: #53739E;
+    color: #000;
+  }
+
+  /* Video Section */
+  .video-section {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+    margin-top: 0; /* No gap above the video */
+  }
+
+  .video-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Ensure video fills the space */
+    z-index: -1;
+  }
+
+  .video-content {
+    position: absolute;
+    top: 60%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #ffffff;
+    text-align: center;
+    text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.7);
+  }
+
+  .video-content h1 {
+    font-size: 3rem;
+    margin-bottom: 20px;
+  }
+
+  .video-content a {
+    display: inline-block;
+    padding: 15px 30px;
+    background: rgba(255, 255, 255, 0.9);
+    color: #000;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+  }
+
+  .video-content a:hover {
+    background: #53739E;
+    color: #000;
+  }
+    /* Scroll Section */
+    .scroll-section {
+      padding: 50px 20px;
+      background: #fff;
+    }
+
+    .scroll-header {
+      text-align: center;
+      font-size: 2rem;
+      margin-bottom: 30px;
+      color: #333;
+    }
+
+    .scroll-cards {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .card {
+      flex: 0 0 300px;
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      text-align: center;
+    }
+
+    .card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .card img {
+      width: 100%;
+      border-top-left-radius: 10px;
+      border-top-right-radius: 10px;
+    }
+
+    .card h3 {
+      font-size: 1.2rem;
+      margin: 15px 0;
+      color: #333;
+    }
+
+    .card p {
+      font-size: 1rem;
+      color: #777;
+      padding: 0 10px;
+      margin-bottom: 15px;
+    }
+
+    .card a {
+      display: inline-block;
+      margin-bottom: 15px;
+      padding: 10px 20px;
+      background: #000;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 5px;
+      font-size: 0.9rem;
+      transition: background 0.3s ease, color 0.3s ease;
+    }
+
+    .card a:hover {
+      background: #FFD700;
+      color: #000;
+    }
+        /* About Us Section */
+    .about-us {
+      padding: 50px 20px;
+      background-color: #f9f9f9;
+    }
+
+    .about-container {
+      display: flex;
+      align-items: center;
+      max-width: 1200px;
+      margin: 0 auto;
+      gap: 20px;
+    }
+
+    .about-image {
+      width: 40%; /* Adjust the size of the image */
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    }
+
+    .about-content {
+      width: 60%; /* Remaining space for text */
+    }
+
+    .about-content h2 {
+      font-size: 2rem;
+      color: #333;
+      margin-bottom: 15px;
+    }
+
+    .about-content p {
+      font-size: 1rem;
+      color: #555;
+      line-height: 1.6;
+      margin-bottom: 10px;
+    }
+
+  </style>
+</head>
+<body>
+  <!-- Top Bar -->
+     <!-- Top Bar -->
+    <div class="top-bar">
+        <a href="{{ url_for('contact') }}">Contact Us</a>
+        {% if session.get('role') == 'Admin' %}
+          <a href="{{ url_for('admin_dashboard') }}">Admin Dashboard</a>
+          <a href="{{ url_for('customer') }}">Our Customers</a>
+          <a href="{{ url_for('cars') }}">Our Cars</a>
+          <a href="{{ url_for('view_order_lines') }}">Order Line</a>
+          <a href="{{ url_for('view_services') }}">Our Services</a>
+          <a href="{{ url_for('Appointment') }}">Appointments</a>
+          <a href="{{ url_for('view_sales') }}">Purchase</a>
+          <a href="{{ url_for('show_employees') }}">Meet Our Team</a>
+          <a href="{{ url_for('order_totals') }}">Order Totals</a>
+          <a href="{{ url_for('logout') }}" class="button">Logout</a> <!-- Logout button for Admin -->
+        {% elif session.get('role') == 'User' %}
+          <a href="{{ url_for('Appointment') }}">Appointments</a>
+          <a href="{{ url_for('show_employees') }}">Meet Our Team</a>
+          <a href="{{ url_for('cars') }}">Our Cars</a>
+          <a href="{{ url_for('view_sales') }}">Purchase</a>
+          <a href="{{ url_for('logout') }}" class="button">Logout</a> <!-- Logout button for User -->
+        {% else %}
+          <a href="{{ url_for('login') }}" class="button">Login</a>
+        {% endif %}
+    </div>
+
+
+  <!-- Video Section -->
+  <div class="video-section">
+    <video id="video" class="video-bg" autoplay muted loop>
+      <source src="{{ url_for('static', filename='Pictures/Corvette Car Commercial.mp4') }}" type="video/mp4">
+    </video>
+    <div class="video-content">
+      <h1>Where Innovation Meets the Road</h1>
+      <a href="#">Redefining Your Ride</a>
+    </div>
+  </div>
+
+  <!-- JavaScript to Adjust Playback Speed -->
+  <script>
+    // Target the video element and adjust playback speed
+    const video = document.getElementById('video');
+    video.playbackRate = 2.3; // Set playback speed to 2x
+  </script>
+
+  <!-- Scrollable Section -->
+  <div class="scroll-section">
+    <h2 class="scroll-header">Our Collections</h2>
+    <div class="scroll-cards">
+      <!-- Card 1 -->
+      <div class="card">
+        <img src="{{ url_for('static', filename='Pictures/suv.jpg') }}" alt="Luxury SUV">
+        <h3>Luxury SUV</h3>
+        <p>Explore our range of luxurious SUVs designed for ultimate comfort and performance.</p>
+      </div>
+      <!-- Card 2 -->
+      <div class="card">
+        <img src="{{ url_for('static', filename='Pictures/car1.jpg') }}" alt="Sports Car">
+        <h3>Sports Car</h3>
+        <p>Discover high-performance sports cars that blend speed with style.</p>
+      </div>
+      <!-- Card 3 -->
+      <div class="card">
+        <img src="{{ url_for('static', filename='Pictures/car2.jpg') }}" alt="Electric Cars">
+        <h3>Electric Cars</h3>
+        <p>Experience the future with our latest electric cars, built for efficiency and luxury.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- About Us Section -->
+  <div class="about-us">
+    <div class="about-container">
+      <img src="{{ url_for('static', filename='Pictures/About.png') }}" alt="About Us" class="about-image">
+      <div class="about-content">
+        <h2>About Us</h2>
+        <p>
+          Welcome to our car showroom, where innovation meets luxury. Our mission is to redefine your driving
+          experience by offering a curated selection of vehicles that combine performance, comfort, and style.
+          With a legacy of excellence and a passion for automobiles, we are committed to exceeding your expectations
+          at every step.
+        </p>
+        <p>
+          Whether you're here to explore our latest models, schedule a service, or learn more about electric cars,
+          we are here to assist you. Join us on the journey to shaping the future of mobility.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Contact Us Section (Footer) -->
+  <footer style="background: rgba(239,239,239, 0.8); color: #4B5363; padding: 10px 20px; text-align: center; margin-top: 30px;">
+    <h2 style="font-size: 1.8rem; margin-bottom: 15px;">Contact Us</h2>
+    <p style="font-size: 1rem; margin: 5px 0;">📧 Email: <a href="mailto:Friends.motors@stuff.org" style="color: #667288; text-decoration: none;">Friends.motors@stuff.org</a></p>
+    <p style="font-size: 1rem; margin: 5px 0;">📞 Phone: <a href="tel:+970507895236 " style="color: #667288; text-decoration: none;">+972 52316350</a></p>
+    <p style="font-size: 1rem; margin: 5px 0;">📍 Location: Palestine - Ramallah</p>
+    <p style="margin-top: 20px; font-size: 0.9rem;">© 2025 Car Showroom. All rights reserved.</p>
+  </footer>
+</body>
+</html>

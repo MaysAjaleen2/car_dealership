@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Sale</title>
+    <style>
+               body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to bottom, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)),
+                url('{{ url_for("static", filename="images/customer.jpg") }}') no-repeat center center fixed;
+            background-size: cover;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background-color: white;
+            color: #333;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            width: 400px;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f8f8;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 400px;
+        }
+
+        .container h1 {
+            text-align: center;
+            color: #1F3857;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        input, select {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button {
+            padding: 10px;
+            background-color: #1F3857;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        button:hover {
+            background-color: #446397;
+        }
+    </style>
+    <script>
+        // Function to update total amount based on car price and quantity
+        function updateTotalAmount() {
+            const carDropdown = document.getElementById('car_id');
+            const quantityInput = document.getElementById('quantity');
+            const totalAmountInput = document.getElementById('total_amount');
+
+            // Get selected car price
+            const selectedOption = carDropdown.options[carDropdown.selectedIndex];
+            const carPrice = parseFloat(selectedOption.getAttribute('data-price')) || 0;
+
+            // Calculate total amount
+            const quantity = parseInt(quantityInput.value) || 1;
+            const totalAmount = carPrice * quantity;
+
+            // Update total amount field
+            totalAmountInput.value = totalAmount.toFixed(2);
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>Update Sale</h1>
+        <form method="POST">
+            <label for="date">Date:</label>
+            <input type="date" id="date" name="date" value="{{ sale['Date'] }}" required>
+
+            <label for="customer_id">Customer:</label>
+            <select id="customer_id" name="customer_id" required>
+                {% for customer in customers %}
+                <option value="{{ customer['Customer_ID'] }}" {% if customer['Customer_ID'] == sale['Customer_ID'] %}selected{% endif %}>
+                    {{ customer['Name'] }}
+                </option>
+                {% endfor %}
+            </select>
+
+            <label for="car_id">Car:</label>
+            <select id="car_id" name="car_id" onchange="updateTotalAmount()" required>
+                <option value="">-- Select a Car --</option>
+                {% for car in cars %}
+                <option value="{{ car['Car_ID'] }}" data-price="{{ car['Price'] }}" {% if car['Car_ID'] == sale['Car_ID'] %}selected{% endif %}>
+                    {{ car['Model'] }} - ₪{{ car['Price'] }}
+                </option>
+                {% endfor %}
+            </select>
+
+            <label for="quantity">Quantity:</label>
+            <input type="number" id="quantity" name="quantity" value="{{ sale['Quantity'] }}" min="1" oninput="updateTotalAmount()" required>
+
+            <label for="total_amount">Total Amount:</label>
+            <input type="number" id="total_amount" name="total_amount" value="{{ sale['Total_Amount'] }}" step="0.01" readonly required>
+
+            <label for="payment_method">Payment Method:</label>
+            <select id="payment_method" name="payment_method" required>
+                <option value="Visa" {% if sale['Payment_Method'] == 'Visa' %}selected{% endif %}>Visa</option>
+                <option value="Cash" {% if sale['Payment_Method'] == 'Cash' %}selected{% endif %}>Cash</option>
+            </select>
+
+            <button type="submit">Update Sale</button>
+        </form>
+    </div>
+</body>
+</html>

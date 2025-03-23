@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Totals</title>
+</head>
+<body>
+    <h1>Order Totals</h1>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Sale ID</th>
+                <th>Total Amount</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for total in totals %}
+            <tr>
+                <td>{{ total.Sale_ID }}</td>
+                <td>{{ total.Total_Amount }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <a href="{{ url_for('home') }}">Back to Home</a>
+</body>
+</html>

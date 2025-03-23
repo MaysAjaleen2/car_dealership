@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Services</title>
+    <style>
+        /* General Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(to bottom, rgba(20, 30, 48, 0.9), rgba(36, 59, 85, 0.9)),
+                url('{{ url_for("static", filename="Pictures/background.jpg") }}') no-repeat center center fixed;
+            background-size: cover;
+            color: #ddd;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Top Bar Styling */
+        .top-bar {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 10px 20px;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background-color: rgba(10, 10, 10, 0.8);
+            color: #f8f8f8;
+            font-size: 0.9rem;
+            z-index: 10;
+            backdrop-filter: blur(10px);
+        }
+
+        .top-bar a {
+            text-decoration: none;
+            color: #f8f8f8;
+            margin: 0 10px;
+            padding: 5px 10px;
+            transition: color 0.3s ease, text-shadow 0.3s ease;
+        }
+
+        .top-bar a:hover {
+            color: #00aabb;
+            text-shadow: 0px 0px 6px #00aabb;
+        }
+
+        /* Content Styling */
+        .content {
+            max-width: 1200px;
+            margin: 100px auto;
+            padding: 20px;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            margin-bottom: 20px;
+            color: #60a6d8;
+            text-shadow: 0px 0px 10px rgba(0, 170, 187, 0.5);
+        }
+
+        /* Service Cards Grid */
+        .services-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .service-card {
+            background: rgba(30, 30, 40, 0.9);
+            border-radius: 10px;
+            padding: 20px;
+            color: #ddd;
+            text-align: center;
+            width: 280px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.6);
+        }
+
+        .service-card h2 {
+            font-size: 1.4rem;
+            margin-bottom: 10px;
+            color: #60a6d8;
+        }
+
+        .service-card p {
+            font-size: 1rem;
+            color: #bbb;
+        }
+
+        .service-card .price {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #28a745;
+            margin-top: 10px;
+        }
+
+        .service-card .actions {
+            margin-top: 15px;
+        }
+
+        .service-card .actions a {
+            display: inline-block;
+            margin: 5px;
+            padding: 10px 20px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .service-card .actions .update {
+            background-color: #334260;
+            color: #fff;
+        }
+
+        .service-card .actions .update:hover {
+            background-color: #334260;
+            box-shadow: 0px 0px 6px #007bff;
+        }
+
+        .service-card .actions .delete {
+            background-color: #4D2C2C;
+            color: #fff;
+        }
+
+        .service-card .actions .delete:hover {
+            background-color: #4D2C2C;
+            box-shadow: 0px 0px 6px #dc3545;
+        }
+
+        /* Add New Service Button */
+        .add-service {
+            display: inline-block;
+            margin-top: 30px;
+            padding: 12px 25px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #fff;
+            background: #60a6d8;
+            border-radius: 25px;
+            text-decoration: none;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .add-service:hover {
+            background-color: #0056b3;
+            box-shadow: 0 8px 20px rgba(0, 123, 255, 0.5);
+        }
+    </style>
+</head>
+<body>
+    <!-- Top Bar -->
+    <div class="top-bar">
+        <a href="{{ url_for('home') }}">Home</a>
+        <a href="{{ url_for('cars') }}">Our Cars</a>
+        <a href="{{ url_for('customer') }}">Customers</a>
+        <a href="{{ url_for('contact') }}">Contact</a>
+    </div>
+
+    <div class="content">
+        <h1>Our Services</h1>
+        <div class="services-grid">
+            {% for service in services %}
+            <div class="service-card">
+                <h2>{{ service[1] }}</h2>
+                <p><strong>Date:</strong> {{ service[2] }}</p>
+                <p class="price"><strong>Price:</strong> ₪ {{ service[3] }}</p>
+                <p><strong>Employee ID:</strong> {{ service[4] }}</p>
+                <div class="actions">
+                    <a href="/update-service/{{ service[0] }}" class="update">Update</a>
+                    <a href="/delete-service/{{ service[0] }}" class="delete">Delete</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <a href="/add-service" class="add-service">Add New Service</a>
+    </div>
+</body>
+</html>

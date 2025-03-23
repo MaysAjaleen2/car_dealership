@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sales Details</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Sales Details</h1>
+        <a href="{{ url_for('home') }}">Home</a>
+
+        {% for sale in sales %}
+        <div class="sale-block" style="border:1px solid #ccc; border-radius:6px; margin:15px 0; padding:15px;">
+            <h2>Sale #{{ sale['Sale_ID'] }} — {{ sale['Date'] }}</h2>
+            <p><strong>Customer:</strong> {{ sale['Customer_Name'] }}</p>
+            <p><strong>Total Amount:</strong> ₪{{ sale['Total_Amount'] }}</p>
+            <p><strong>Payment Method:</strong> {{ sale['Payment_Method'] }}</p>
+
+            {% if sale['Order_Lines'] %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>Order Line ID</th>
+                        <th>Car ID</th>
+                        <th>Service ID</th>
+                        <th>Real Price</th>
+                        <th>Discount (%)</th>
+                        <th>Final Price</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for line in sale['Order_Lines'] %}
+                    <tr>
+                        <td>{{ line['Order_Line_ID'] }}</td>
+                        <td>{{ line['Car_ID'] or 'N/A' }}</td>
+                        <td>{{ line['Service_ID'] or 'N/A' }}</td>
+                        <td>₪{{ line['Real_Price'] }}</td>
+                        <td>{{ line['Discount_Percentage'] }}%</td>
+                        <td>₪{{ line['Final_Price'] }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <p>No order lines for this sale.</p>
+            {% endif %}
+        </div>
+        {% endfor %}
+    </div>
+</body>
+</html>

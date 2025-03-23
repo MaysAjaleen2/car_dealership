@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <title>Car Showroom</title>
+</head>
+<body>
+    <header>
+        <ul>
+            <li><a href="{{ url_for('home') }}">Home</a></li>
+            <li><a href="{{ url_for('login') }}">Our Cars</a></li>
+        </ul>
+    </header>
+    <div class="hero">
+        <div class="hero-text">
+            <h1>UNLOCK PURE LUXURY!</h1>
+            <h2>Elegance..</h2>
+            <p>
+                At our Car Showroom, we redefine luxury and innovation by offering a premium collection of vehicles tailored
+                to your lifestyle. Whether you're seeking elegance, performance, or reliability, our expert team is dedicated
+                to helping you find the perfect car that exceeds your expectations and complements your journey.
+            </p>
+            <a href="{{ url_for('login') }}" class="btn">Our Cars</a>
+        </div>
+        <div class="hero-image">
+            <img src="{{ url_for('static', filename='images/car.jpg') }}" alt="Luxury Car">
+        </div>
+    </div>
+</body>
+</html>

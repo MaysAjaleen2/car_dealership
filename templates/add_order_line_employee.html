@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assign Employee to Order Line</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Assign Employee to Order Line</h1>
+        <form method="POST" action="{{ url_for('add_order_line_employee') }}">
+            <div class="form-group">
+                <label for="order_line_id">Order Line:</label>
+                <select id="order_line_id" name="order_line_id" required class="form-control">
+                    {% for order_line in order_lines %}
+                    <option value="{{ order_line['Order_Line_ID'] }}">{{ order_line['Order_Line_ID'] }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="emp_id">Employee:</label>
+                <select id="emp_id" name="emp_id" required class="form-control">
+                    {% for employee in employees %}
+                    <option value="{{ employee['Emp_ID'] }}">{{ employee['EmName'] }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="role">Role:</label>
+                <input type="text" id="role" name="role" required class="form-control">
+            </div>
+            <button type="submit" class="btn btn-primary">Assign Employee</button>
+        </form>
+    </div>
+</body>
+</html>

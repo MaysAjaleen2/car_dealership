@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact - Car Showroom</title>
+    <style>
+        /* General Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: url('{{ url_for("static", filename="Pictures/contact-bg.jpg") }}') no-repeat center center fixed;
+            background-size: cover;
+            color: #333;
+        }
+
+        header {
+            background-color: rgba(31, 56, 87, 0.9);
+            padding: 10px 20px;
+        }
+
+        nav {
+            display: flex;
+            justify-content: flex-end;
+            gap: 20px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: #FFD700;
+        }
+
+        main {
+            max-width: 800px;
+            margin: 100px auto 50px auto;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: #1F3857;
+            margin-bottom: 20px;
+        }
+
+        p {
+            font-size: 1.2rem;
+            margin: 10px 0;
+            color: #333;
+        }
+
+        /* Contact Button */
+        .contact-btn {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 1rem;
+            background-color: rgba(31, 56, 87, 0.9);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        .contact-btn:hover {
+            background-color: #446397;
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="{{ url_for('home') }}">Home</a>
+            <a href="{{ url_for('contact') }}">Contact</a>
+        </nav>
+    </header>
+
+    <main>
+        <h1>Contact Us</h1>
+        <p>Email: <a href="mailto:Friends.motors@stuff.org">Friends.motors@stuff.org</a></p>
+        <p>Phone: <a href="tel:+970 507895236">+970 507895236</a></p>
+        <p>Location: Palestine - Ramallah</p>
+
+        <button class="contact-btn" onclick="window.location.href='{{ url_for('home') }}'">Go Back Home</button>
+    </main>
+</body>
+</html>
