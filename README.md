@@ -35,7 +35,7 @@ A full-stack web app for managing a car dealership: inventory, customers, employ
 ```
 app.py                              # Flask app: routes + queries
 templates/                          # Jinja2 HTML templates
-static/                             # Images, videos, (add CSS here if needed)
+static/                             # Images, videos, 
 cars_db_dump.sql                    # Full schema + data dump of the working database
 DATA BASE FINAL PHASE PROJECTSQL CODE.sql   # Original design-phase schema script
 requirements.txt                    # Python dependencies
